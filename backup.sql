@@ -1,8 +1,10 @@
 
+USE master;
+GO
 
---IF  DB_ID('GameServer') IS NOT NULL
---DROP DATABASE GameServer;
---GO
+IF  DB_ID('GameServer') IS NOT NULL
+DROP DATABASE GameServer;
+GO
 
 CREATE DATABASE GameServer;
 GO
@@ -26,7 +28,6 @@ CREATE TABLE Account (
 
 CREATE TABLE Player (
   PlayerID           INT            PRIMARY KEY   IDENTITY,
-  AccountID          INT NOT NULL    references Account (AccountID),
   EmailAddress         VARCHAR(255)   NOT NULL      UNIQUE,
   Password             VARCHAR(60)    NOT NULL,
   FirstName            VARCHAR(60)    NOT NULL,
@@ -58,6 +59,7 @@ CREATE TABLE Characters (
 CREATE TABLE Items (
   ItemID             INT            PRIMARY KEY  IDENTITY,
   CharacterID            INT            REFERENCES Characters (CharacterID),
+  AccountID          INT            REFERENCES Account (AccountID),
   ItemPrice          MONEY  NOT NULL,
   Damage     INT  NOT NULL,
   ItemName varchar(255) not null
@@ -105,13 +107,13 @@ SET IDENTITY_INSERT Account OFF;
 
 SET IDENTITY_INSERT Player ON;
 
-INSERT INTO Player(PlayerID, AccountID, EmailAddress, Password, FirstName , LastName) VALUES 
-(1 , 1,'halv@gmail.com'  , 'thisismypassword'   , 'Hector'    , 'Alvarez'  ),
-(2 , 2,'melibeli@gmail.com'  , 'melibelibeli'   , 'Meli'    , 'Rahim'  ),
-(3, 3,'ray@gmail.com'  , 'raythecoolguy'   , 'Ray'    , 'Lau'  ),
-(4 , 4,'alber@gmail.com'  , 'Asonatachan'   , 'Alb'    , 'Chan'  ),
-(5 , 5,'steph@gmail.com'  , 'hithisissteph'   , 'Steph'    , 'Vista'  ),
-(6 , 6,'tom@gmail.com'  , 'yesthisistom'   , 'Tom'    , 'Kim'  );
+INSERT INTO Player(PlayerID, EmailAddress, Password, FirstName , LastName) VALUES 
+(1 , 'halv@gmail.com'  , 'thisismypassword'   , 'Hector'    , 'Alvarez'  ),
+(2 , 'melibeli@gmail.com'  , 'melibelibeli'   , 'Meli'    , 'Rahim'  ),
+(3, 'ray@gmail.com'  , 'raythecoolguy'   , 'Ray'    , 'Lau'  ),
+(4 , 'alber@gmail.com'  , 'Asonatachan'   , 'Alb'    , 'Chan'  ),
+(5 , 'steph@gmail.com'  , 'hithisissteph'   , 'Steph'    , 'Vista'  ),
+(6 , 'tom@gmail.com'  , 'yesthisistom'   , 'Tom'    , 'Kim'  );
 
 SET IDENTITY_INSERT Player OFF;
 
@@ -158,12 +160,12 @@ SET IDENTITY_INSERT Characters OFF;
 
 SET IDENTITY_INSERT  Items ON;
 
-INSERT INTO Items(ItemID, CharacterID, ItemPrice, Damage, ItemName) VALUES 
-(1 , 1, 1200.0, 100, 'Stridebreaker'),
-(2 , 1, 3200.0, 300 , 'Last Whisper'),
-(3 , 2, 500.0, 150 , 'Forge of iron'),
-(4 , 4 , 1600.0, 120 , 'Shadow Of The Mist'),
-(5 , 3, 5000.0, 100 , 'Stand Eternal')
+INSERT INTO Items(ItemID, CharacterID, AccountID, ItemPrice, Damage, ItemName) VALUES 
+(1 , 1 , 1, 1200.0, 100, 'Stridebreaker'),
+(2 , 1 , 1, 3200.0, 300 , 'Last Whisper'),
+(3 , 2 , 3, 500.0, 150 , 'Forge of iron'),
+(4 , 4 , 4, 1600.0, 120 , 'Shadow Of The Mist'),
+(5 , 3 , 5, 5000.0, 100 , 'Stand Eternal')
 
 SET IDENTITY_INSERT Items OFF;
 
